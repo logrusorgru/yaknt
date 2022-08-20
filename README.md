@@ -14,6 +14,10 @@ Execute a command in the new tab
 yaknt -t "title" -e "top"
 ```
 
+# Arch Linux package
+
+- https://aur.archlinux.org/packages/yaknt
+
 # Licensing
 
 Copyright © 2022 Konstantin Ivanov. This work is free. It comes without any
