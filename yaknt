@@ -1,0 +1,44 @@
+#!/usr/bin/env python3
+
+import argparse
+import subprocess
+
+qdbus    = 'qdbus'
+oky      = 'org.kde.yakuake'
+yakSess  = '/yakuake/sessions'
+yakTabs  = '/yakuake/tabs'
+addSess  = 'org.kde.yakuake.addSession'
+setTitle = 'setTabTitle'
+runCmd   = 'runCommandInTerminal'
+
+parser = argparse.ArgumentParser('yaknt')
+
+parser.add_argument(
+	"-t",
+	nargs  = "?",
+	help   = "provide a tab title")
+parser.add_argument(
+	"-e",
+	nargs = "?",
+	help   = "execute a command")
+args = vars(parser.parse_args())
+
+print(' '.join(str(x) for x in [qdbus, oky, yakSess, addSess]))
+no = subprocess.run([qdbus, oky, yakSess, addSess],
+	check=True, capture_output=True).stdout.decode("utf-8").strip()
+print("new session number ", no)
+
+print("args['t'] {}".format(args["t"]))
+print("args['e'] {}".format(args["e"]))
+
+if args["t"]:
+	print(' '.join(str(x) for x in [qdbus, oky, yakTabs, setTitle, no,
+		args["t"].replace('"','\\"')]))
+	subprocess.run([qdbus, oky, yakTabs, setTitle, no,
+		args["t"].replace('"','\\"')]);
+
+if args["e"]:
+	print(' '.join(str(x) for x in [qdbus, oky, yakSess, runCmd,
+		str(int(no) + 1), args["e"]]))
+	subprocess.run([qdbus, oky, yakSess, runCmd,
+		str(int(no) + 1), args["e"]]);
