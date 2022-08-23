@@ -39,6 +39,6 @@ if args["t"]:
 
 if args["e"]:
 	print(' '.join(str(x) for x in [qdbus, oky, yakSess, runCmd,
-		str(int(no) + 1), args["e"]]))
+		no, args["e"]]))
 	subprocess.run([qdbus, oky, yakSess, runCmd,
-		str(int(no) + 1), args["e"]]);
+		no, args["e"]]);
